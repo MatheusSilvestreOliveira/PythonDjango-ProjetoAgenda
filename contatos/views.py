@@ -1,10 +1,14 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404
+from django.core.paginator import Paginator
 from .models import Contato
 
 
 # Create your views here.
 def index(request):
     contatos = get_list_or_404(Contato)
+    paginator = Paginator(contatos, 10)
+    page = request.GET.get('page')
+    contatos = paginator.get_page(page)
     return render(request, 'contatos/index.html', {'contatos': contatos})
 
 
